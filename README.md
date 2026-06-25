@@ -13,7 +13,7 @@ This project demonstrates **frontend development fundamentals**, including page 
 https://sanjay-narra.github.io/learnflow
 
 🔗 **Repository:**
-https://github.com/Sanjay284-beep/learnflow
+https://github.com/sanjay-narra/learnflow
 
 ---
 
@@ -79,7 +79,7 @@ Planned improvements for the project:
 
 **Sanjay Narra**
 
-* GitHub: https://github.com/Sanjay284-beep
+* GitHub: https://github.com/sanjay-narra/learnflow
 
 ---
 
