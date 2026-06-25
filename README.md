@@ -10,7 +10,7 @@ This project demonstrates **frontend development fundamentals**, including page 
 ## 🌐 Live Demo
 
 🔗 **Website:**
-https://Sanjay284-beep.github.io/learnflow
+https://sanjay-narra.github.io/learnflow
 
 🔗 **Repository:**
 https://github.com/Sanjay284-beep/learnflow
