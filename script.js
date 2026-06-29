@@ -1,268 +1,219 @@
-// ── 5. WATCH DEMO — VIDEO MODAL ────────────────────────────────
-// Creates a popup modal when "Watch Demo" is clicked
+/* =========================================================
+   LearnFlow – script.js
+   ========================================================= */
 
-const watchDemoBtn = document.querySelector('.btn-ghost');
+// ---- Course data ----
+const COURSES = [
+  {
+    id: 1, cat: 'frontend', emoji: '🌐',
+    tag: 'Frontend', title: 'HTML & CSS Mastery',
+    desc: 'Build pixel-perfect layouts. Learn Flexbox, Grid, animations, and responsive design.',
+    rating: 4.9, students: '1.2k', hours: '18h',
+    color: '#eef2ff'
+  },
+  {
+    id: 2, cat: 'frontend', emoji: '⚛️',
+    tag: 'Frontend', title: 'React – The Complete Guide',
+    desc: 'Components, hooks, Context API, and building production-ready SPAs.',
+    rating: 4.8, students: '980', hours: '32h',
+    color: '#eef2ff'
+  },
+  {
+    id: 3, cat: 'frontend', emoji: '⚡',
+    tag: 'Frontend', title: 'JavaScript Deep Dive',
+    desc: 'Closures, async/await, ES2024 features, and interview-level problem solving.',
+    rating: 4.9, students: '2.1k', hours: '24h',
+    color: '#eef2ff'
+  },
+  {
+    id: 4, cat: 'backend', emoji: '🟢',
+    tag: 'Backend', title: 'Node.js & Express APIs',
+    desc: 'Build REST and GraphQL APIs. Authentication, middleware, and deployment.',
+    rating: 4.7, students: '640', hours: '28h',
+    color: '#f0fdf4'
+  },
+  {
+    id: 5, cat: 'backend', emoji: '🐍',
+    tag: 'Backend', title: 'Python & Django',
+    desc: 'Full-stack Python. ORM, views, templates, deployment on cloud platforms.',
+    rating: 4.8, students: '870', hours: '36h',
+    color: '#f0fdf4'
+  },
+  {
+    id: 6, cat: 'backend', emoji: '🗄️',
+    tag: 'Backend', title: 'Databases & SQL',
+    desc: 'PostgreSQL, MongoDB, query optimization, and data modeling best practices.',
+    rating: 4.7, students: '510', hours: '20h',
+    color: '#f0fdf4'
+  },
+  {
+    id: 7, cat: 'design', emoji: '🎨',
+    tag: 'Design', title: 'UI/UX Fundamentals',
+    desc: 'Design systems, wireframing, Figma, and user research methods.',
+    rating: 4.9, students: '730', hours: '22h',
+    color: '#fdf4ff'
+  },
+  {
+    id: 8, cat: 'design', emoji: '✏️',
+    tag: 'Design', title: 'Figma for Developers',
+    desc: 'Components, auto-layout, prototyping, and handoff for engineering teams.',
+    rating: 4.8, students: '490', hours: '14h',
+    color: '#fdf4ff'
+  },
+  {
+    id: 9, cat: 'data', emoji: '📊',
+    tag: 'Data Science', title: 'Data Analysis with Python',
+    desc: 'Pandas, NumPy, Matplotlib, and real-world data cleaning projects.',
+    rating: 4.8, students: '920', hours: '30h',
+    color: '#fff7ed'
+  },
+  {
+    id: 10, cat: 'data', emoji: '🤖',
+    tag: 'Data Science', title: 'ML Foundations',
+    desc: 'Supervised learning, neural nets, and scikit-learn from scratch.',
+    rating: 4.7, students: '670', hours: '40h',
+    color: '#fff7ed'
+  },
+];
 
-watchDemoBtn.addEventListener('click', (e) => {
-  e.preventDefault(); // stop page jumping to #
+// ---- Live activity ticker messages ----
+const ACTIVITIES = [
+  '🎉 <strong>Arun M.</strong> just completed React Hooks module',
+  '📚 <strong>Divya K.</strong> enrolled in Python & Django',
+  '⭐ <strong>Rahul S.</strong> earned their Frontend certificate',
+  '🔴 Live session starting in <strong>12 minutes</strong> – Node.js Q&A',
+  '🎉 <strong>Meena T.</strong> landed a job at a Hyderabad startup!',
+  '📚 <strong>Vikram P.</strong> enrolled in UI/UX Fundamentals',
+  '⭐ <strong>Sneha R.</strong> rated React Deep Dive <strong>5 stars</strong>',
+  '🔴 <strong>87 learners</strong> are studying right now',
+];
 
-  // Create overlay background
-  const overlay = document.createElement('div');
-  overlay.style.cssText = `
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.85);
-    display: flex; align-items: center; justify-content: center;
-    animation: fadeIn 0.3s ease;
-  `;
+// ---- Render courses ----
+function renderCourses(filter) {
+  const grid = document.getElementById('coursesGrid');
+  if (!grid) return;
 
-  // Create modal box
-  const modal = document.createElement('div');
-  modal.style.cssText = `
-    background: #13131a;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    padding: 2.5rem;
-    max-width: 560px;
-    width: 90%;
-    text-align: center;
-    position: relative;
-    animation: slideUp 0.3s ease;
-  `;
+  const filtered = filter === 'all' ? COURSES : COURSES.filter(c => c.cat === filter);
+  const tagClass = { frontend: 'tag-frontend', backend: 'tag-backend', design: 'tag-design', data: 'tag-data' };
 
-  modal.innerHTML = `
-    <button id="closeModal" style="
-      position:absolute; top:1rem; right:1rem;
-      background:rgba(255,255,255,0.08); border:none;
-      color:#fff; width:32px; height:32px;
-      border-radius:50%; cursor:pointer; font-size:1rem;
-    ">✕</button>
-    <div style="font-size:3rem; margin-bottom:1rem;">🎬</div>
-    <h3 style="font-family:'Syne',sans-serif; font-size:1.4rem; margin-bottom:0.75rem;">
-      Demo Coming Soon!
-    </h3>
-    <p style="color:#7a7a8c; font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem;">
-      The full demo video is being produced. For now, scroll down to explore all the courses and features live on this page!
-    </p>
-    <a href="#courses" id="modalCTA" style="
-      background:#c8f04d; color:#0a0a0f;
-      padding:0.8rem 1.8rem; border-radius:100px;
-      font-weight:700; text-decoration:none;
-      display:inline-block; font-family:'DM Sans',sans-serif;
-    ">Explore Courses →</a>
-  `;
-
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-
-  // Close on X button
-  document.getElementById('closeModal').addEventListener('click', () => {
-    document.body.removeChild(overlay);
-  });
-
-  // Close on overlay click (outside modal)
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) document.body.removeChild(overlay);
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', function escClose(e) {
-    if (e.key === 'Escape' && document.body.contains(overlay)) {
-      document.body.removeChild(overlay);
-      document.removeEventListener('keydown', escClose);
-    }
-  });
-
-  // Close modal and scroll to courses on CTA click
-  document.getElementById('modalCTA').addEventListener('click', () => {
-    document.body.removeChild(overlay);
-  });
-});
-
-
-// ── 6. COURSE CARD CLICK ────────────────────────────────────────
-// Shows a toast notification when a course card is clicked
-
-const courseCards = document.querySelectorAll('.course-card');
-
-courseCards.forEach(card => {
-  card.addEventListener('click', (e) => {
-    e.preventDefault();
-    const title = card.querySelector('.course-title').textContent;
-    showToast(`📚 "${title}" — Enrollment opening soon!`);
-  });
-});
-
-
-// ── 7. TOAST NOTIFICATION HELPER ───────────────────────────────
-function showToast(message) {
-  // Remove any existing toast first
-  const existing = document.getElementById('toast');
-  if (existing) existing.remove();
-
-  const toast = document.createElement('div');
-  toast.id = 'toast';
-  toast.textContent = message;
-  toast.style.cssText = `
-    position: fixed;
-    bottom: 2rem; left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #1c1c27;
-    border: 1px solid rgba(200,240,77,0.3);
-    color: #f0f0f5;
-    padding: 0.9rem 1.6rem;
-    border-radius: 100px;
-    font-size: 0.88rem;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    z-index: 999;
-    opacity: 0;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-  `;
-
-  document.body.appendChild(toast);
-
-  // Animate in
-  setTimeout(() => {
-    toast.style.opacity = '1';
-    toast.style.transform = 'translateX(-50%) translateY(0)';
-  }, 10);
-
-  // Animate out after 3 seconds
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(-50%) translateY(20px)';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
+  grid.innerHTML = filtered.map(c => `
+    <div class="course-card" onclick="openCourse(${c.id})">
+      <div class="course-thumb" style="background:${c.color}">${c.emoji}</div>
+      <div class="course-body">
+        <span class="course-tag ${tagClass[c.cat]}">${c.tag}</span>
+        <h3>${c.title}</h3>
+        <p>${c.desc}</p>
+        <div class="course-meta">
+          <span class="course-rating">⭐ ${c.rating}</span>
+          <span>${c.students} students</span>
+          <span>🕐 ${c.hours}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
+function openCourse(id) {
+  const course = COURSES.find(c => c.id === id);
+  if (!course) return;
+  // Future: navigate to course detail page. For now, enroll via signup.
+  const go = confirm(`Enroll in "${course.title}"?\n\nYou'll be taken to create a free account.`);
+  if (go) window.location.href = 'signup.html';
+}
 
-// ── 8. GET STARTED / CTA BUTTONS ───────────────────────────────
-// Show toast when Get Started buttons are clicked
-
-const ctaButtons = document.querySelectorAll('.btn-primary');
-
-ctaButtons.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    // Only intercept the CTA section button (not the scroll ones)
-    if (btn.textContent.includes('Get Started Free')) {
-      e.preventDefault();
-      showToast('🚀 Sign up launching soon — stay tuned!');
-    }
+// ---- Course filter buttons ----
+function initFilters() {
+  const btns = document.querySelectorAll('.filter-btn');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      renderCourses(cat);
+    });
   });
-});
+}
 
+// ---- Live activity ticker ----
+function initTicker() {
+  const ticker = document.getElementById('activityTicker');
+  if (!ticker) return;
 
-// ── 1. HAMBURGER MENU ──────────────────────────────────────────
-const hamburger = document.getElementById('hamburger');
-const navLinks  = document.getElementById('navLinks');
+  // Duplicate messages so the loop is seamless
+  const all = [...ACTIVITIES, ...ACTIVITIES];
+  ticker.innerHTML = all.map(msg => `<span>${msg}</span>`).join('');
+}
 
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+// ---- Mobile hamburger menu ----
+function initMenu() {
+  const btn = document.getElementById('menuBtn');
+  const menu = document.getElementById('mobileMenu');
+  if (!btn || !menu) return;
 
-  const spans = hamburger.querySelectorAll('span');
-
-  if (navLinks.classList.contains('open')) {
-    // Animate 3 lines → X icon
-    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-    spans[1].style.opacity   = '0';
-    spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-  } else {
-    // Reset back to 3 lines
-    spans[0].style.transform = '';
-    spans[1].style.opacity   = '';
-    spans[2].style.transform = '';
-  }
-});
-
-// Close nav when any link is clicked (mobile)
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    const spans = hamburger.querySelectorAll('span');
-    spans[0].style.transform = '';
-    spans[1].style.opacity   = '';
-    spans[2].style.transform = '';
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('open');
   });
-});
 
-
-// ── 2. SCROLL REVEAL ───────────────────────────────────────────
-// All elements with class "reveal" start hidden (in CSS)
-// When they enter the viewport, we add "visible" class → CSS animates them in
-
-const reveals  = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      // Stagger: each element appears 60ms after the previous one
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, i * 60);
-
-      // Stop watching once revealed (no need to re-animate)
-      revealObserver.unobserve(entry.target);
-    }
+  // Close menu when a link is clicked
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => menu.classList.remove('open'));
   });
-}, { threshold: 0.1 }); // trigger when 10% of element is visible
+}
 
-reveals.forEach(el => revealObserver.observe(el));
-
-
-// ── 3. NAVBAR BACKGROUND ON SCROLL ─────────────────────────────
-// Makes nav more opaque when user scrolls down
-
-const nav = document.querySelector('nav');
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 60) {
-    nav.style.background = 'rgba(10,10,15,0.95)'; // more solid
-  } else {
-    nav.style.background = 'rgba(10,10,15,0.8)';  // semi-transparent
-  }
-});
-
-
-// ── 4. ANIMATED NUMBER COUNTER ─────────────────────────────────
-// Stats like "50K+" count up from 0 when they scroll into view
-
-const statNums = document.querySelectorAll('.stat-num');
-
-const statObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el  = entry.target;
-      const raw = el.textContent;                          // e.g. "50K+"
-
-      // Separate number from suffix
-      const num    = parseFloat(raw.replace(/[^0-9.]/g, '')); // 50
-      const suffix = raw.replace(/[0-9.]/g, '');              // "K+"
-
-      const duration  = 1400; // animation duration in ms
-      const startTime = performance.now();
-
-      const animate = (now) => {
-        const elapsed  = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Ease out cubic — starts fast, slows down at end
-        const eased = 1 - Math.pow(1 - progress, 3);
-
-        el.textContent = Math.round(num * eased) + suffix;
-
-        if (progress < 1) {
-          requestAnimationFrame(animate); // keep animating at 60fps
-        } else {
-          el.textContent = raw; // set exact original value at end
-        }
-      };
-
-      requestAnimationFrame(animate);
-      statObserver.unobserve(el); // only animate once
-    }
+// ---- Smooth scroll for in-page anchors ----
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
   });
-}, { threshold: 0.5 }); // trigger when 50% of stat is visible
+}
 
-statNums.forEach(el => statObserver.observe(el));
+// ---- Signup form ----
+function initSignupForm() {
+  const form = document.getElementById('signupForm');
+  if (!form) return;
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = form.querySelector('#name')?.value;
+    const email = form.querySelector('#email')?.value;
+    if (!email) return;
+
+    // Simulate account creation
+    const btn = form.querySelector('button[type=submit]');
+    btn.textContent = 'Creating account…';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      alert(`Welcome to LearnFlow${name ? ', ' + name : ''}! 🎉\n\nYour account is ready. Start with the free HTML & CSS course.`);
+      window.location.href = 'courses.html';
+    }, 1200);
+  });
+}
+
+// ---- Progress bar animation on scroll ----
+function initProgressAnim() {
+  const fill = document.querySelector('.dash-progress-fill');
+  if (!fill) return;
+
+  // The fill width is already set via inline style; animate after load
+  const target = fill.style.width;
+  fill.style.width = '0';
+  setTimeout(() => { fill.style.width = target; }, 600);
+}
+
+// ---- Init ----
+document.addEventListener('DOMContentLoaded', () => {
+  renderCourses('all');
+  initFilters();
+  initTicker();
+  initMenu();
+  initSmoothScroll();
+  initSignupForm();
+  initProgressAnim();
+});
