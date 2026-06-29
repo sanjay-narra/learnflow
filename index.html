@@ -6,21 +6,243 @@
   <meta name="description" content="LearnFlow - Responsive learning platform for modern web.">
   <title>LearnFlow</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Font Awesome for icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ── HERO VISUAL (replaces broken image) ── */
+    .hero-visual {
+      position: relative;
+      width: 420px;
+      height: 340px;
+      flex-shrink: 0;
+    }
+    .hero-visual-card {
+      position: absolute;
+      background: var(--surface, #1c1c27);
+      border: 1px solid rgba(200,240,77,0.15);
+      border-radius: 16px;
+      padding: 1.2rem 1.5rem;
+      backdrop-filter: blur(10px);
+    }
+    .hvc-main {
+      width: 260px;
+      top: 40px; left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .hvc-main .course-icon {
+      width: 44px; height: 44px;
+      background: rgba(200,240,77,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 0.8rem;
+    }
+    .hvc-main .course-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 0.95rem;
+      color: #f0f0f5; margin-bottom: 0.3rem;
+    }
+    .hvc-main .course-prog-label {
+      font-size: 0.75rem; color: #888;
+      display: flex; justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .prog-bar {
+      height: 5px; border-radius: 100px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .prog-bar-fill {
+      height: 100%; width: 68%;
+      background: linear-gradient(90deg, #c8f04d, #a0e030);
+      border-radius: 100px;
+      animation: progAnim 2s ease-out both;
+    }
+    @keyframes progAnim { from { width: 0 } to { width: 68% } }
+
+    .hvc-stat {
+      width: 120px;
+      padding: 0.9rem 1.1rem;
+    }
+    .hvc-stat-top { font-size: 0.7rem; color: #888; margin-bottom: 0.3rem; }
+    .hvc-stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.4rem;
+      color: #c8f04d;
+    }
+    .hvc-stat-label { font-size: 0.72rem; color: #aaa; }
+
+    .hvc-s1 { bottom: 30px; left: 10px; }
+    .hvc-s2 { bottom: 30px; right: 10px; }
+
+    .hvc-badge {
+      position: absolute;
+      top: 10px; right: 20px;
+      background: rgba(200,240,77,0.1);
+      border: 1px solid rgba(200,240,77,0.3);
+      border-radius: 100px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.72rem; font-weight: 700;
+      color: #c8f04d;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,240,77,0.08) 0%, transparent 70%);
+      top: -20px; right: -20px;
+      pointer-events: none;
+    }
+
+    /* ── FEATURES SECTION ── */
+    #features {
+      padding: 5rem 4vw;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .features-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+    }
+    .feature-card {
+      background: var(--surface, #1c1c27);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 2rem 1.8rem;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,240,77,0.2);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .feature-icon {
+      width: 48px; height: 48px;
+      background: rgba(200,240,77,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+    .feature-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      color: #f0f0f5;
+      margin-bottom: 0.5rem;
+    }
+    .feature-desc {
+      font-size: 0.85rem;
+      color: #888;
+      line-height: 1.65;
+    }
+
+    /* ── TESTIMONIALS SECTION ── */
+    #testimonials {
+      padding: 5rem 4vw;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .testimonials-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .testimonials-grid { grid-template-columns: 1fr; }
+    }
+    .testimonial-card {
+      background: var(--surface, #1c1c27);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(200,240,77,0.15);
+    }
+    .testimonial-stars {
+      color: #c8f04d;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    .testimonial-text {
+      font-size: 0.88rem;
+      color: #c0c0d0;
+      line-height: 1.7;
+      margin-bottom: 1.4rem;
+      font-style: italic;
+      font-weight: 300;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .author-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem;
+      color: #0a0a0f;
+      flex-shrink: 0;
+    }
+    .av1 { background: #c8f04d; }
+    .av2 { background: #7b61ff; color: #fff; }
+    .av3 { background: #ff6b6b; color: #fff; }
+    .author-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 0.88rem;
+      color: #f0f0f5;
+    }
+    .author-role { font-size: 0.75rem; color: #888; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c8f04d;
+      margin-bottom: 0.6rem;
+    }
+  </style>
 </head>
 <body>
+
   <!-- NAV -->
   <nav>
     <a href="#" class="logo">LearnFlow<span class="logo-dot">.</span></a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="#hero">Home</a></li>
-      <li><a href="#courses">Courses</a></li>
+      <li><a href="courses.html">Courses</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#testimonials">Testimonials</a></li>
-      <li><a href="#cta" class="nav-cta">Get Started</a></li>
+      <li><a href="signup.html" class="nav-cta">Get Started</a></li>
     </ul>
-    <button class="hamburger">
+    <button class="hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -33,12 +255,37 @@
         <h1 class="hero-title">Learn <em>Smarter</em> with LearnFlow</h1>
         <p class="hero-sub">A modern, responsive learning platform built for web developers.</p>
         <div class="hero-actions">
-          <a href="#courses" class="btn-primary">Explore Courses</a>
+          <a href="courses.html" class="btn-primary">Explore Courses</a>
           <a href="#features" class="btn-ghost">See Features</a>
         </div>
       </div>
+
+      <!-- FIXED HERO VISUAL — no image file needed -->
       <div class="hero-visual">
-        <img src="assets/hero-illustration.png" alt="Learning illustration">
+        <div class="hvc-badge">🔴 Live Now</div>
+
+        <div class="hero-visual-card hvc-main">
+          <div class="course-icon">⚛️</div>
+          <div class="course-name">React & Next.js Masterclass</div>
+          <div class="course-prog-label">
+            <span>Progress</span><span>68%</span>
+          </div>
+          <div class="prog-bar">
+            <div class="prog-bar-fill"></div>
+          </div>
+        </div>
+
+        <div class="hero-visual-card hvc-stat hvc-s1">
+          <div class="hvc-stat-top">Students</div>
+          <div class="hvc-stat-num">1.2k+</div>
+          <div class="hvc-stat-label">Active learners</div>
+        </div>
+
+        <div class="hero-visual-card hvc-stat hvc-s2">
+          <div class="hvc-stat-top">Rating</div>
+          <div class="hvc-stat-num">4.8★</div>
+          <div class="hvc-stat-label">Avg. score</div>
+        </div>
       </div>
     </div>
   </section>
@@ -69,7 +316,7 @@
       <p class="section-sub">Choose from a variety of modern web development topics.</p>
     </div>
     <div class="courses-grid">
-      <a href="#" class="course-card">
+      <a href="courses.html" class="course-card">
         <div class="course-thumb"><i class="fas fa-code"></i></div>
         <div class="course-body">
           <h3 class="course-title">Frontend Basics</h3>
@@ -80,7 +327,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="course-card">
+      <a href="courses.html" class="course-card">
         <div class="course-thumb"><i class="fas fa-database"></i></div>
         <div class="course-body">
           <h3 class="course-title">Backend Essentials</h3>
@@ -91,7 +338,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="course-card">
+      <a href="courses.html" class="course-card">
         <div class="course-thumb"><i class="fab fa-react"></i></div>
         <div class="course-body">
           <h3 class="course-title">React Development</h3>
@@ -105,13 +352,100 @@
     </div>
   </section>
 
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="features-header">
+      <p class="section-label">Why LearnFlow</p>
+      <h2 class="section-title">Everything you need to grow</h2>
+      <p class="section-sub">Built for developers who want to learn fast and build real things.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Self-Paced Learning</div>
+        <div class="feature-desc">Learn on your schedule. Every course is available 24/7 with lifetime access — no deadlines, no pressure.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👨‍💻</div>
+        <div class="feature-title">Expert Instructors</div>
+        <div class="feature-desc">All courses are built by industry professionals with real experience at top product companies.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <div class="feature-title">Verified Certificates</div>
+        <div class="feature-desc">Earn certificates recognised by hiring managers. Share directly to LinkedIn or download as PDF.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Live Coding Labs</div>
+        <div class="feature-desc">Write and run code directly in your browser. No setup, no installs — just open and start building.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-title">Community Support</div>
+        <div class="feature-desc">Join an active Discord community of 5,000+ learners. Ask questions, share projects, get feedback.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">Mobile Friendly</div>
+        <div class="feature-desc">Fully responsive on every device. Learn from your phone, tablet, or desktop — wherever you are.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="testimonials-inner">
+      <div class="testimonials-header">
+        <p class="section-label">Student Reviews</p>
+        <h2 class="section-title">Loved by learners</h2>
+        <p class="section-sub">Real feedback from students who built real skills.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"LearnFlow's React course got me my first frontend job in 3 months. The coding labs are incredible — I built 5 real projects before even finishing the course."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar av1">A</div>
+            <div>
+              <div class="author-name">Arjun Mehta</div>
+              <div class="author-role">Frontend Developer, Bangalore</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I tried 4 other platforms before LearnFlow. Nothing compares to the quality here. The instructors actually explain the 'why' behind everything, not just the 'how'."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar av2">P</div>
+            <div>
+              <div class="author-name">Priya Sharma</div>
+              <div class="author-role">Full-Stack Developer, Hyderabad</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Went from zero to deploying my own Django API in 6 weeks. The community Discord alone is worth it — got code reviews from senior devs within hours."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar av3">R</div>
+            <div>
+              <div class="author-name">Rahul Nair</div>
+              <div class="author-role">Backend Engineer, Pune</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section id="cta">
     <div class="cta-inner">
       <h2 class="cta-title">Ready to Start Learning?</h2>
       <p class="cta-sub">Join thousands of developers upgrading their skills with LearnFlow.</p>
       <div class="cta-actions">
-        <a href="#courses" class="btn-primary">Get Started</a>
+        <a href="courses.html" class="btn-primary">Get Started</a>
         <a href="#features" class="btn-ghost">Learn More</a>
       </div>
     </div>
@@ -119,22 +453,32 @@
 
   <!-- FOOTER -->
   <footer>
+    <a href="#" class="logo">LearnFlow<span class="logo-dot">.</span></a>
     <ul class="footer-links">
-      <li><a href="#courses">Courses</a></li>
+      <li><a href="courses.html">Courses</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="signup.html">Sign Up</a></li>
     </ul>
     <p class="footer-copy">© 2026 LearnFlow. All rights reserved.</p>
   </footer>
 
-  <!-- JS for Mobile Nav -->
   <script>
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('open');
+      const spans = hamburger.querySelectorAll('span');
+      if (navLinks.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+      } else {
+        spans[0].style.transform = spans[2].style.transform = '';
+        spans[1].style.opacity = '';
+      }
     });
   </script>
+
 </body>
 </html>
-<script src="script.js"></script>
